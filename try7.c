@@ -138,8 +138,8 @@ int main(){
         // printf("%d - %d = %d\n", size, curr_index, size-curr_index);
         
         int new_k = k - S[curr_index];
-        while(new_k > -1){
-            // printf("%d\n", new_k);
+        while(new_k > 0){
+            printf("new_k = %d\n", new_k);
             // printf("%d\n", curr_index);
 
             for(int i = curr_index-1; i >=0; i--){
