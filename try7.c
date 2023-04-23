@@ -2,12 +2,33 @@
 #include <stdlib.h>
 
 int main(){
-    int S[5] = {3, 7, 2, 9, 5};
-    int k = 10, temp = 0;
-    int size = sizeof(S)/sizeof(S[0]);
+
+    int size, k;
+    printf("Enter size of the array: ");
+    scanf("%d", &size);
+    
+    int S[size];
+    printf("Enter %d integers: ", size);
+    for(int i = 0; i < size; i++){
+        scanf("%d", &S[i]);
+    }
+
+    printf("Enter k: ");
+    scanf("%d", &k);
+
+    // printf("%d\n", size);
+    // for(int i = 0; i < size; i++){
+    //     printf("%d ", S[i]);
+    // }
+    // printf("\n");
+
+    // int S[5] = {3, 7, 2, 9, 5};
+    // int k = 10;
+    int temp = 0;
+    // int size = sizeof(S)/sizeof(S[0]);
     int two_dimensional[size][k+1];
 
-    // for(int i=0; i<size; i++){
+    // for(int i=0; i < size; i++){
     //     printf("%d ", S[i]); 
     // }
     // printf("\n");
@@ -61,7 +82,7 @@ int main(){
                 }
 
                 if((j-S[curr]) < 0){
-                    two_dimensional[curr][j] = 0;
+                    two_dimensional[curr][j] = two_dimensional[curr-1][j];
                 }else{
                     int prevJ = two_dimensional[curr-1][j];
                     int moved_left = two_dimensional[curr-1][j-S[curr]];
@@ -86,6 +107,8 @@ int main(){
         }
     }
 
+    // print for two_dimensional
+    printf("\n");
     for(int i = 0; i < size; i++){
         for(int j= 0; j < k+1; j++){
             printf("%d ", two_dimensional[i][j]);
@@ -93,4 +116,46 @@ int main(){
         printf("\n");
     }
     printf("\n");
+
+    if(two_dimensional[size-1][k] == 1){
+        int curr_index, sub_index = 0;
+
+        // printf("There is a solution.\n");
+
+        // traceback
+        for(int i = size-1; i >=0; i--){
+            if (two_dimensional[i][k] == 0){
+                curr_index = i + 1;
+                // subset[sub_index] = S[curr_index];
+                // sub_index++;
+                break;
+            }
+        }
+        int sub_size = size - curr_index;
+        int subset[sub_size];
+        // printf("%d - %d = %d\n", size, curr_index, size-curr_index);
+        
+        int new_k = k;
+        while(curr_index >= 0){
+            if(new_k > 0){
+                subset[sub_index] = S[curr_index];
+                new_k = new_k - S[curr_index];
+                curr_index--;
+                sub_index++;
+            }else{
+                break;
+            }
+        }
+
+        printf("The solution set for k = %d is {", k);
+        for(int i=sub_index-1; i > 0; i--){
+            printf("%d, ", subset[i]); 
+        }
+        printf("%d}.\n", subset[0]);
+        
+    }else{
+        printf("There is no solution.\n");
+    }
+
+    
 }
