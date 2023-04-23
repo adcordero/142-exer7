@@ -4,6 +4,7 @@ int main(){
     int S[5] = {3, 7, 2, 9, 5};
     int k = 10, temp = 0;
     int size = sizeof(S)/sizeof(S[0]);
+    int two_dimensional[size][k+1];
 
     // for(int i=0; i<size; i++){
     //     printf("%d ", S[i]); 
@@ -25,4 +26,63 @@ int main(){
     //     printf("%d ", S[i]); 
     // }
     // printf("\n");
+
+    // column 0 is initialized to 1 aka empty set
+    for(int i = 0; i < size; i++){
+        for(int j= 0; j < k+1; j++){
+            if(j==0){
+                two_dimensional[i][j] = 1;
+            }else{
+                two_dimensional[i][j] = S[i];
+            }
+        }
+    }
+
+    for(int curr = 0; curr < size; curr++){
+        if(curr==0){
+            // printf("curr");
+            for(int j = 1; j < k+1; j++){
+                if(S[curr] > j || S[curr] < j){
+                    two_dimensional[curr][j] = 0;
+                }else{
+                    two_dimensional[curr][j] = 1;
+                }
+            }
+            // continue;
+        }else{
+            // printf("%d ", curr);
+            // printf("%d ", curr);
+            int total = 0;
+
+            for(int l = curr; l >=0; l--){
+                total = total + S[l];
+            }
+            // printf("%d\n", total);
+
+            for(int j = 1; j < k+1; j++){
+                if(S[curr] > j || S[curr] < j){
+                    two_dimensional[curr][j] = 0;
+                }
+
+                for(int l = curr; l >=0; l--){
+                    if(j == S[l]){
+                        two_dimensional[curr][j] = 1;
+                    }
+                }
+
+                if(j == total){
+                    two_dimensional[curr][j] = 1;
+                }
+
+            }
+        }
+    }
+
+    for(int i = 0; i < size; i++){
+        for(int j= 0; j < k+1; j++){
+            printf("%d ", two_dimensional[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
