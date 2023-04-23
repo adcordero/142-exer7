@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(){
     int S[5] = {3, 7, 2, 9, 5};
@@ -40,7 +41,6 @@ int main(){
 
     for(int curr = 0; curr < size; curr++){
         if(curr==0){
-            // printf("curr");
             for(int j = 1; j < k+1; j++){
                 if(S[curr] > j || S[curr] < j){
                     two_dimensional[curr][j] = 0;
@@ -48,20 +48,29 @@ int main(){
                     two_dimensional[curr][j] = 1;
                 }
             }
-            // continue;
         }else{
-            // printf("%d ", curr);
-            // printf("%d ", curr);
             int total = 0;
 
             for(int l = curr; l >=0; l--){
                 total = total + S[l];
             }
-            // printf("%d\n", total);
 
             for(int j = 1; j < k+1; j++){
                 if(S[curr] > j || S[curr] < j){
                     two_dimensional[curr][j] = 0;
+                }
+
+                if((j-S[curr]) < 0){
+                    two_dimensional[curr][j] = 0;
+                }else{
+                    int prevJ = two_dimensional[curr-1][j];
+                    int moved_left = two_dimensional[curr-1][j-S[curr]];
+
+                    if(prevJ > moved_left){
+                        two_dimensional[curr][j] = prevJ;
+                    }else{
+                        two_dimensional[curr][j] = moved_left;
+                    }
                 }
 
                 for(int l = curr; l >=0; l--){
@@ -73,7 +82,6 @@ int main(){
                 if(j == total){
                     two_dimensional[curr][j] = 1;
                 }
-
             }
         }
     }
