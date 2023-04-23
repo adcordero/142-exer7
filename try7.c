@@ -133,18 +133,40 @@ int main(){
         }
         int sub_size = size - curr_index;
         int subset[sub_size];
+        subset[sub_index] = S[curr_index];
+        sub_index++;
         // printf("%d - %d = %d\n", size, curr_index, size-curr_index);
         
-        int new_k = k;
-        while(curr_index >= 0){
-            if(new_k > 0){
-                subset[sub_index] = S[curr_index];
-                new_k = new_k - S[curr_index];
-                curr_index--;
-                sub_index++;
-            }else{
-                break;
+        int new_k = k - S[curr_index];
+        while(new_k > -1){
+            // printf("%d\n", new_k);
+            // printf("%d\n", curr_index);
+
+            for(int i = curr_index-1; i >=0; i--){
+                // printf("i = %d\n", curr_index);
+
+                if (two_dimensional[i][new_k] == 0){
+                    curr_index = i + 1;
+                    subset[sub_index] = S[curr_index];
+                    sub_index++;
+                    break;
+                }
+
+
+                if(i == 0){
+                    if (new_k - S[i] >= 0){
+                        subset[sub_index] = S[i];
+                        sub_index++;
+                        // break;
+                    }
+                }
             }
+            // printf("curr_index = %d\n", curr_index);
+            new_k = new_k - S[curr_index];
+
+            // subset[sub_index] = S[curr_index];
+            // curr_index--;
+            // sub_index++;
         }
 
         printf("The solution set for k = %d is {", k);
